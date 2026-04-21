@@ -15,6 +15,10 @@ public struct CommandTapInterpreter {
 
     public init() {}
 
+    public func isPressed(_ side: CommandSide) -> Bool {
+        pressedSides.contains(side)
+    }
+
     public mutating func modifierChanged(side: CommandSide, isPressed: Bool) -> CommandTapAction? {
         if isPressed {
             handlePress(of: side)
