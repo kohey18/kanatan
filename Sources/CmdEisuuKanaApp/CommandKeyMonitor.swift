@@ -14,7 +14,6 @@ final class CommandKeyMonitor {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private var interpreter = CommandTapInterpreter()
-    private var pressedCommandSides: Set<CommandSide> = []
 
     init(inputSourceController: InputSourceController) {
         self.inputSourceController = inputSourceController
@@ -42,7 +41,7 @@ final class CommandKeyMonitor {
         guard let tap = CGEvent.tapCreate(
             tap: .cgSessionEventTap,
             place: .headInsertEventTap,
-            options: .defaultTap,
+            options: .listenOnly,
             eventsOfInterest: eventMask,
             callback: callback,
             userInfo: UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
@@ -59,6 +58,10 @@ final class CommandKeyMonitor {
     }
 
     func stop() {
+        if let eventTap {
+            CGEvent.tapEnable(tap: eventTap, enable: false)
+        }
+
         if let runLoopSource {
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
             self.runLoopSource = nil
@@ -95,11 +98,13 @@ final class CommandKeyMonitor {
             return
         }
 
-        let isPressed = !pressedCommandSides.contains(side)
-        if isPressed {
-            pressedCommandSides.insert(side)
-        } else {
-            pressedCommandSides.remove(side)
+        let flags = event.flags
+        let isPressed: Bool
+        switch side {
+        case .left:
+            isPressed = flags.contains(.maskCommand)
+        case .right:
+            isPressed = flags.contains(.maskCommand)
         }
 
         guard let action = interpreter.modifierChanged(side: side, isPressed: isPressed) else {
