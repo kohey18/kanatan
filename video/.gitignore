@@ -1,4 +1,4 @@
 node_modules/
 out/
 .DS_Store
-public/audio/
+public/audio/line*.wav
