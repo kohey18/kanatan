@@ -188,6 +188,18 @@
   }
   .step p { color: var(--text-desc); font-size: 15px; }
 
+  /* Intro video */
+  .video-wrap video {
+    display: block;
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    margin: 8px auto 0;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
   /* FAQ */
   .faq details {
     border: 1px solid var(--border-light);
@@ -266,7 +278,8 @@
       <p class="hero-note">無料・オープンソース ／ macOS 13以降 ／ Apple Silicon &amp; Intel対応</p>
     </div>
     <div class="hero-visual">
-      <img src="assets/hero-demo.png" alt="USキーボードで左コマンドキーが英数、右コマンドキーがかなに割り当てられている図" width="960" height="640">
+      <img class="motion-anim" src="assets/hero-clip2.gif" alt="左コマンドキーをタップするとHello、右コマンドキーをタップするとこんにちはと入力が切り替わるデモ" width="960" height="540">
+      <img class="motion-static" src="assets/hero-demo.png" alt="USキーボードで左コマンドキーが英数、右コマンドキーがかなに割り当てられている図" width="960" height="640">
     </div>
   </div>
 </section>
@@ -428,6 +441,20 @@
         <h3>もう、切り替え済み。</h3>
         <p>左⌘と右⌘を、タップしてみてください。ログイン時の自動起動もメニューからワンクリック。</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6.5 サービス説明動画 -->
+<section>
+  <div class="container">
+    <p class="section-label">サービス説明動画</p>
+    <h2>30秒でわかるKanatan。</h2>
+    <div class="video-wrap">
+      <video controls playsinline preload="metadata" width="960" height="540">
+        <source src="assets/kanatan-intro.mp4" type="video/mp4">
+        お使いのブラウザは動画再生に対応していません。
+      </video>
     </div>
   </div>
 </section>
