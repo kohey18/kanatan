@@ -153,7 +153,15 @@
   /* Steps */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; counter-reset: step; }
   .step { counter-increment: step; }
-  .step img { border: 1px solid var(--border-light); border-radius: 8px; margin-bottom: 16px; }
+  .step img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
   .step h3::before {
     content: counter(step);
     display: inline-flex; align-items: center; justify-content: center;
