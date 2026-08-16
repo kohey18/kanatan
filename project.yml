@@ -1,0 +1,33 @@
+name: Kanatan
+options:
+  bundleIdPrefix: jp.bandinc
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+targets:
+  Kanatan:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/KanatanApp
+      - Sources/KanatanCore
+      - path: Resources
+        buildPhase: resources
+    info:
+      path: Info.plist
+      properties:
+        LSUIElement: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.bandinc.kanatan
+        PRODUCT_NAME: Kanatan
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        SWIFT_VERSION: "5.0"
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: YES

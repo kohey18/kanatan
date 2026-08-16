@@ -10,8 +10,8 @@ swiftc \
   -framework AppKit \
   -framework ApplicationServices \
   -framework Carbon \
-  "$ROOT_DIR"/Sources/CmdEisuuKanaCore/*.swift \
-  "$ROOT_DIR"/Sources/CmdEisuuKanaApp/*.swift \
-  -o "$ROOT_DIR/bin/cmd-eisuu-kana"
+  "$ROOT_DIR"/Sources/KanatanCore/*.swift \
+  "$ROOT_DIR"/Sources/KanatanApp/*.swift \
+  -o "$ROOT_DIR/bin/kanatan"
 
-echo "Built $ROOT_DIR/bin/cmd-eisuu-kana"
+echo "Built $ROOT_DIR/bin/kanatan"

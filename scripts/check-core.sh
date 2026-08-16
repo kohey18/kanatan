@@ -65,7 +65,7 @@ struct CheckRunner {
 SWIFT
 
 swiftc \
-  "$ROOT_DIR/Sources/CmdEisuuKanaCore/CommandTapInterpreter.swift" \
+  "$ROOT_DIR/Sources/KanatanCore/CommandTapInterpreter.swift" \
   "$TMP_DIR/checks.swift" \
   -o "$TMP_DIR/checks"
 
