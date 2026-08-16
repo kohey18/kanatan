@@ -26,8 +26,13 @@ final class CommandKeyMonitor {
     func start() throws {
         guard eventTap == nil else { return }
 
+        // Mouse events are included so that ⌘-click / ⌘-scroll count as chords.
         let eventMask = (CGEventMask(1) << CGEventType.flagsChanged.rawValue)
             | (CGEventMask(1) << CGEventType.keyDown.rawValue)
+            | (CGEventMask(1) << CGEventType.leftMouseDown.rawValue)
+            | (CGEventMask(1) << CGEventType.rightMouseDown.rawValue)
+            | (CGEventMask(1) << CGEventType.otherMouseDown.rawValue)
+            | (CGEventMask(1) << CGEventType.scrollWheel.rawValue)
 
         let callback: CGEventTapCallBack = { _, type, event, userInfo in
             guard let userInfo else {
@@ -84,6 +89,8 @@ final class CommandKeyMonitor {
             if event.getIntegerValueField(.eventSourceUserData) != InputSourceController.syntheticEventUserData {
                 interpreter.nonModifierKeyPressed()
             }
+        case .leftMouseDown, .rightMouseDown, .otherMouseDown, .scrollWheel:
+            interpreter.nonModifierKeyPressed()
         case .flagsChanged:
             handleFlagsChanged(event)
         default:
@@ -92,6 +99,11 @@ final class CommandKeyMonitor {
 
         return Unmanaged.passUnretained(event)
     }
+
+    // Device-specific NX flag bits: .maskCommand is shared by both sides, so
+    // releasing one ⌘ while the other is held would otherwise read as pressed.
+    private static let leftCommandFlag: UInt64 = 0x0000_0008 // NX_DEVICELCMDKEYMASK
+    private static let rightCommandFlag: UInt64 = 0x0000_0010 // NX_DEVICERCMDKEYMASK
 
     private func handleFlagsChanged(_ event: CGEvent) {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
@@ -105,9 +117,15 @@ final class CommandKeyMonitor {
         let isPressed: Bool
         switch side {
         case .left:
-            isPressed = flags.contains(.maskCommand)
+            isPressed = flags.rawValue & Self.leftCommandFlag != 0
         case .right:
-            isPressed = flags.contains(.maskCommand)
+            isPressed = flags.rawValue & Self.rightCommandFlag != 0
+        }
+
+        // A ⌘ tap while Shift/Control/Option/fn is held is a chord, not a tap.
+        let otherModifiers: CGEventFlags = [.maskShift, .maskControl, .maskAlternate, .maskSecondaryFn]
+        if !flags.intersection(otherModifiers).isEmpty {
+            interpreter.otherModifierChanged()
         }
 
         guard let action = interpreter.modifierChanged(side: side, isPressed: isPressed) else {

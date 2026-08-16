@@ -137,9 +137,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func toggleLoginItem() {
         let service = SMAppService.mainApp
         do {
-            if service.status == .enabled {
+            switch service.status {
+            case .enabled:
                 try service.unregister()
-            } else {
+            case .requiresApproval:
+                // Registered but pending user approval — re-registering would
+                // fail, so send the user to the Login Items settings instead.
+                SMAppService.openSystemSettingsLoginItems()
+            default:
                 try service.register()
             }
         } catch {

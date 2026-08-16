@@ -1,61 +1,89 @@
 # Kanatan サービス説明動画 生成プロンプト集（Gemini Omni Flash用）
 
-30秒のサービス紹介動画を、8秒×4クリップで生成して繋ぐ構成。
-各クリップのプロンプトは英語（映像モデルは英語の方が指示追従が安定するため）。ナレーションは日本語で後述。
+30秒のサービス紹介動画を **8秒×4クリップ** で生成して繋ぐ構成。
+ナレーション・構成はLP（docs/index.html）の最新文言に準拠。
 
-**共通の注意**:
-- アスペクト比 **16:9**、各クリップ **8秒** で生成
-- 動画生成モデルは**日本語の文字描画が崩れやすい**ので、画面内テキスト（ロゴ・キャッチコピー）はプロンプトで最小限にし、最終的には動画編集で後乗せするのが安全
-- 全クリップ共通のスタイル指定（各プロンプト末尾に付与）:
-
-> Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+このファイルの読み方:
+- **✂️ コードブロック（```で囲まれた部分）だけを、そのままGemini Omni Flashに貼り付けてください。**
+- コードブロックの外の文章は人間用の説明です。貼り付けないでください。
+- 各クリップは 16:9 / 8秒 で生成してください。
+- 動画モデルは日本語の文字描画が崩れやすいため、プロンプトは「画面内テキストなし」で統一しています。ロゴやキャッチコピーは編集時に後乗せします。
 
 ---
 
-## 構成（30秒）
+## 全体構成（貼り付け不要・編集時の設計図）
 
-| クリップ | 秒数 | 役割 | ナレーション |
+| クリップ | 秒数 | 役割 | 対応するLP文言 |
 |---|---|---|---|
-| 1 | 0–8 | 共感（打ち間違いの苛立ち） | 「konnnichiha って、打ったことありませんか」 |
-| 2 | 8–16 | 解決（左⌘=英数、右⌘=かな） | 「Kanatanなら、左コマンドで英数、右コマンドでかな」 |
-| 3 | 16–24 | 体験（迷いなく打てる） | 「押すキーで行き先が決まるから、もう迷わない」 |
-| 4 | 24–30 | ブランド（ロゴ+CTA） | 「Kanatan。無料・オープンソースで、今日から」 |
+| 1 | 0–8 | 共感 | 「US配列のまま、英数／かなだけ欲しい。」 |
+| 2 | 8–16 | 解決 | 「左⌘で英数、右⌘でかな。」 |
+| 3 | 16–24 | 体験 | 「押すキーで、行き先が決まる。」「もう、切り替え済み。」 |
+| 4 | 24–30 | ブランド | 「考えるのは文章だけ。切り替えはKanatanに。」 |
 
-## クリップ1: 共感
+---
 
-```
-An 8-second 16:9 animation. A person in a blue shirt types on a laptop at a clean white desk. A speech bubble above the laptop fills with garbled zigzag symbols and "?!" marks. The person stops typing, shoulders slump slightly, a small sweat drop appears by their head. Slow gentle zoom toward the confused speech bubble. Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
-```
+## クリップ1: 共感（0–8秒）
 
-## クリップ2: 解決
+✂️ 下のブロックをそのまま貼り付け:
 
 ```
-An 8-second 16:9 animation. Top-down view of a minimal US-layout keyboard. At second 2, a finger taps the key left of the spacebar: the key lights up blue #0017C1 with a soft pulse. At second 5, a finger taps the key right of the spacebar: the key lights up red #D64550 with a soft pulse. The rest of the keyboard stays white and light gray. Crisp, satisfying tap motion with a subtle ripple from each key. Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+Create an 8-second 16:9 video. A person in a blue shirt types on a laptop at a clean white desk. A speech bubble above the laptop fills with garbled zigzag symbols and "?!" marks. The person stops typing, shoulders slump slightly, a small sweat drop appears by their head. Slow gentle zoom toward the confused speech bubble.
+
+Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
 ```
 
-## クリップ3: 体験
+## クリップ2: 解決（8–16秒）
+
+✂️ 下のブロックをそのまま貼り付け:
 
 ```
-An 8-second 16:9 animation. The same person from before now types fluidly and happily on the laptop. Above the laptop, two clean squares alternate glowing in rhythm with the typing: a blue square and a red square, pulsing alternately like a smooth metronome. The person's posture is relaxed and confident, with a slight smile. Gentle lateral camera drift. Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+Create an 8-second 16:9 video. Top-down view of a minimal US-layout keyboard with blank white keys. At second 2, a finger taps the key immediately left of the spacebar: the key lights up blue #0017C1 with a soft pulse and stays lit. At second 5, a finger taps the key immediately right of the spacebar: the key lights up red #D64550 with a soft pulse and stays lit. The rest of the keyboard stays white and light gray. Crisp, satisfying tap motion with a subtle ripple radiating from each tapped key.
+
+Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
 ```
 
-## クリップ4: ブランド
+## クリップ3: 体験（16–24秒）
+
+✂️ 下のブロックをそのまま貼り付け:
 
 ```
-An 8-second 16:9 animation. A rounded-square app icon, split vertically into a blue half and a red half, floats to the center of a pure white screen and settles with a soft bounce. A subtle radial glow expands behind it. The icon gently pulses once, blue side first, then red side. Calm, confident ending shot with plenty of white space around the icon. Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+Create an 8-second 16:9 video. The same person from before now types fluidly and confidently on the laptop, posture relaxed, with a slight smile. Above the laptop, two clean rounded squares — one blue #0017C1, one red #D64550 — pulse gently in alternation, in rhythm with the typing, like a smooth metronome. Nothing interrupts the typing flow. Gentle lateral camera drift.
+
+Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
 ```
+
+## クリップ4: ブランド（24–30秒）
+
+✂️ 下のブロックをそのまま貼り付け:
+
+```
+Create an 8-second 16:9 video. A rounded-square app icon, split vertically into a blue #0017C1 half and a red #D64550 half, floats to the center of a pure white screen and settles with a soft, satisfying bounce. A subtle radial glow expands behind it. The icon gently pulses once — blue side first, then red side — then holds still. Calm, confident ending shot with generous white space around the icon.
+
+Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+```
+
+---
 
 ## ナレーション原稿（30秒・日本語TTS/収録用）
 
-> こんにちは、のつもりが「konnnichiha」。
-> USキーボードの日本語切り替え、地味にストレスですよね。
-> Kanatanなら、左コマンドをタップで英数、右コマンドでかな。
-> 押すキーで行き先が決まるから、今どっちのモードか、考えなくていい。
-> コマンドキーのショートカットはそのまま。設定も、ほぼゼロ。
-> Kanatan。無料・オープンソースで、今日から手に入ります。
+✂️ TTSに貼り付ける場合は下のブロックをそのまま:
 
-## 仕上げ（編集時）
+```
+US配列は好き。でも、英数かなの切り替えだけが、ずっと面倒だった。
+Kanatanなら、左コマンドをタップで英数、右コマンドでかな。
+トグルじゃないから、今どっちのモードか、考えなくていい。
+コマンドキーのショートカットは、いつも通り。
+許可を1回ONにしたら、もう切り替え済み。
+考えるのは文章だけ。切り替えは、Kanatanに。無料・オープンソースです。
+```
 
-1. クリップ4の終盤に、実物のアプリアイコン（`docs/assets/app-icon.png`）とロゴタイプ「Kanatan」、キャッチコピー「もう、入力モードで迷わない。」をテロップで後乗せ（生成任せにしない）
-2. クリップ2と3の間に、実機のスクリーン録画（メニューバー+実際の切り替え）を2〜3秒挟むと信頼感が上がる
-3. BGMは打鍵音と相性のいいミニマルなもの。クリップ2のタップに合わせて効果音を置くと「押したら切り替わる」が音でも伝わる
+クリップとの対応（貼り付け不要）: 1〜2文目=クリップ1、3文目=クリップ2、4〜5文目=クリップ3、6文目=クリップ4。
+
+---
+
+## 仕上げチェックリスト（貼り付け不要・編集作業用）
+
+1. クリップ4の終盤に、実物のアプリアイコン（`docs/assets/app-icon.png`）・ロゴタイプ「Kanatan」・キャッチコピー「もう、入力モードで迷わない。」をテロップで後乗せする（文字は生成に任せない）
+2. クリップ2と3の間に実機のスクリーン録画（メニューバー+実際の切り替え）を2〜3秒挟むと信頼感が上がる
+3. BGMはミニマルなもの。クリップ2の2つのタップに効果音を合わせると「押したら切り替わる」が音でも伝わる
+4. 末尾に「無料・オープンソース / macOS 13+」とLPのURLをテロップ表示

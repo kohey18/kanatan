@@ -138,8 +138,22 @@
   .feature img { width: 80px; height: 80px; flex-shrink: 0; }
   .feature p { color: var(--text-desc); }
 
+  /* Reduced motion: show a still image instead of the looping GIF */
+  .motion-static { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .motion-anim { display: none; }
+    .motion-static { display: block; }
+  }
+
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    clip: rect(0 0 0 0); overflow: hidden; white-space: nowrap;
+  }
+
   /* Comparison table */
   .table-wrap { overflow-x: auto; margin-top: 32px; }
+  .table-wrap:focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; }
   table {
     border-collapse: collapse; width: 100%; min-width: 720px;
     font-size: 14px; background: #ffffff;
@@ -338,49 +352,50 @@
   <div class="container">
     <p class="section-label">比較</p>
     <h2>いま使っている方法と、どう違う？</h2>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="切り替え方法の比較表">
       <table>
+        <caption class="visually-hidden">Kanatanと他の入力切り替え方法の比較</caption>
         <thead>
           <tr>
-            <th></th>
-            <th>Kanatan</th>
-            <th>高機能なキーカスタマイズアプリ</th>
-            <th>Control + Space</th>
+            <th scope="col"><span class="visually-hidden">比較項目</span></th>
+            <th scope="col">Kanatan</th>
+            <th scope="col">高機能なキーカスタマイズアプリ</th>
+            <th scope="col">Control + Space</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>左⌘=英数 / 右⌘=かな</th>
+            <th scope="row">左⌘=英数 / 右⌘=かな</th>
             <td class="kanatan">対応</td>
             <td>対応（要ルール設定）</td>
             <td>—</td>
           </tr>
           <tr>
-            <th>ステートレス（迷わない）</th>
+            <th scope="row">ステートレス（迷わない）</th>
             <td class="kanatan">対応</td>
             <td>対応</td>
             <td>トグル式</td>
           </tr>
           <tr>
-            <th>更新状況</th>
+            <th scope="row">更新状況</th>
             <td class="kanatan">開発中</td>
             <td>活発</td>
             <td>—</td>
           </tr>
           <tr>
-            <th>Apple Siliconネイティブ</th>
+            <th scope="row">Apple Siliconネイティブ</th>
             <td class="kanatan">対応</td>
             <td>対応</td>
             <td>—</td>
           </tr>
           <tr>
-            <th>導入の手間</th>
+            <th scope="row">導入の手間</th>
             <td class="kanatan">アプリ起動+許可1つ</td>
             <td>ドライバ導入+ルール設定</td>
             <td>不要</td>
           </tr>
           <tr>
-            <th>必要な権限</th>
+            <th scope="row">必要な権限</th>
             <td class="kanatan">アクセシビリティのみ</td>
             <td>入力監視+仮想ドライバ</td>
             <td>—</td>
@@ -403,7 +418,8 @@
         <p>ダウンロードして、アプリケーションフォルダへ。</p>
       </div>
       <div class="step">
-        <img src="assets/setup-permission.gif" alt="許可ダイアログからシステム設定を開き、アクセシビリティでKanatanをONにする流れ" width="480" height="360">
+        <img class="motion-anim" src="assets/setup-permission.gif" alt="許可ダイアログからシステム設定を開き、アクセシビリティでKanatanをONにする流れ" width="480" height="360">
+        <img class="motion-static" src="assets/setup-permission.png" alt="システム設定のアクセシビリティでKanatanがONになっている画面" width="480" height="360">
         <h3>許可を1回だけON</h3>
         <p>アクセシビリティの許可を1回だけONにします。</p>
       </div>

@@ -90,18 +90,20 @@ final class InputSourceController {
             return true
         }
 
-        let isASCIICapable: Bool
-        if let pointer = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsASCIICapable) {
-            isASCIICapable = CFBooleanGetValue(Unmanaged<CFBoolean>.fromOpaque(pointer).takeUnretainedValue())
-        } else {
-            isASCIICapable = false
-        }
-
         switch action {
         case .selectLatin:
-            return isASCIICapable
+            guard let pointer = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsASCIICapable) else {
+                return false
+            }
+            return CFBooleanGetValue(Unmanaged<CFBoolean>.fromOpaque(pointer).takeUnretainedValue())
         case .selectJapanese:
-            return !isASCIICapable
+            // Match the actual Japanese mode/source, not just "non-ASCII",
+            // so other CJK input sources are not mistaken for success.
+            if let pointer = TISGetInputSourceProperty(source, kTISPropertyInputModeID),
+               Unmanaged<CFString>.fromOpaque(pointer).takeUnretainedValue() as String == configuration.japaneseInputModeID {
+                return true
+            }
+            return currentInputSourceID() == configuration.japaneseSourceID
         }
     }
 
@@ -145,6 +147,15 @@ final class InputSourceController {
         }
 
         return true
+    }
+
+    private func currentInputSourceID() -> String? {
+        guard let source = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue(),
+              let pointer = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) else {
+            return nil
+        }
+
+        return Unmanaged<CFString>.fromOpaque(pointer).takeUnretainedValue() as String
     }
 
     private func selectCurrentASCIICapableSource() {
