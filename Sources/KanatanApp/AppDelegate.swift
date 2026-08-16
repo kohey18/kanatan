@@ -99,7 +99,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func retryMonitoring() {
         commandKeyMonitor?.stop()
         commandKeyMonitor = nil
-        startMonitoring(promptForAccessibility: false)
+        // Prompt again so the user can bring the accessibility dialog back
+        // instead of digging through System Settings.
+        startMonitoring(promptForAccessibility: true)
     }
 
     @objc private func openAccessibilitySettings() {
