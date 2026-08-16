@@ -10,7 +10,7 @@
 [![Swift](https://img.shields.io/badge/Swift-5-orange)](Package.swift)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[Landing Page](https://kohey18.github.io/cmd-eisuu-kana/) · [Report a Bug](https://github.com/kohey18/cmd-eisuu-kana/issues)
+[Landing Page](https://kohey18.github.io/kanatan/) · [Report a Bug](https://github.com/kohey18/kanatan/issues)
 
 <img src="docs/assets/hero-demo.png" width="640" alt="Left Command switches to English, Right Command switches to Kana">
 
@@ -30,14 +30,14 @@
 
 ### Download
 
-Grab the latest `Kanatan.app` from [Releases](https://github.com/kohey18/cmd-eisuu-kana/releases/latest) and drop it into `/Applications`.
+Grab the latest `Kanatan.app` from [Releases](https://github.com/kohey18/kanatan/releases/latest) and drop it into `/Applications`.
 
 ### Build from source
 
 ```bash
 brew install xcodegen   # first time only
-git clone https://github.com/kohey18/cmd-eisuu-kana.git
-cd cmd-eisuu-kana
+git clone https://github.com/kohey18/kanatan.git
+cd kanatan
 ./scripts/install.sh    # builds Kanatan.app (Release) and installs it to /Applications
 ```
 
