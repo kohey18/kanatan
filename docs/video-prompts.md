@@ -83,6 +83,27 @@ Kanatanなら、左コマンドをタップで英数、右コマンドでかな�
 
 ---
 
+## BGM生成プロンプト（Suno / Udio / Lyria など音楽生成AI用）
+
+動画の構成（0-8s 戸惑い → 8-16s 解決 → 16-24s 快適 → 24-30s ブランド）に合わせた30秒のインスト曲。
+ナレーションの下に敷くので、主張しすぎないミニマルなものを指定している。
+
+✂️ 下のブロックをそのまま貼り付け:
+
+```
+30-second instrumental background music for a Mac app intro video. Minimal, clean, modern Japanese tech aesthetic. Warm marimba and soft felt piano over a light electronic pulse, around 105 BPM. Structure: sparse and slightly hesitant for the first 8 seconds; from 8s a confident, steady groove begins with two subtle percussive "tap" accents; stays light and pleasant through 24s; ends calm and resolved with a soft final chord that lands exactly at 30 seconds. No vocals, no heavy drums, no dramatic risers, no cinematic epicness. Mood: tidy, friendly, trustworthy.
+```
+
+日本語で指定できるサービスの場合:
+
+```
+Macアプリ紹介動画用の30秒のインストゥルメンタルBGM。ミニマルで清潔な、現代的な日本のテックプロダクトの雰囲気。温かいマリンバと柔らかいフェルトピアノ、軽い電子的なパルス、テンポは105BPM前後。構成: 最初の8秒はまばらで少し戸惑うような雰囲気 → 8秒から自信のある一定のグルーヴが始まり、控えめなタップ音のアクセントを2回 → 24秒まで軽快さを維持 → 最後は落ち着いたコードで30秒ちょうどに静かに着地。ボーカルなし、重いドラムなし、映画的な盛り上げなし。印象: 端正、親しみやすい、信頼できる。
+```
+
+生成できたら `video/public/audio/bgm.mp3` として保存すれば、ナレーションの音量を邪魔しないダッキング付きで組み込む（実装はすぐできるので声かけを）。
+
+---
+
 ## 仕上げチェックリスト（貼り付け不要・編集作業用）
 
 1. クリップ4の終盤に、実物のアプリアイコン（`docs/assets/app-icon.png`）・ロゴタイプ「Kanatan」・キャッチコピー「もう、入力モードで迷わない。」をテロップで後乗せする（文字は生成に任せない）
