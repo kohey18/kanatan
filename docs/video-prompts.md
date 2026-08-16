@@ -24,12 +24,14 @@
 
 ## クリップ1: 共感（0–8秒）
 
+「間違ったモードで打ってしまい、消して打ち直す」を文字なしで表現。タイプされた文章は抽象的なグレーのバーで描かせ、モードの不確かさは青⇄赤に揺れる小さなインジケータで見せる（クリップ2で「タップで確定して光る」と対比になる）。
+
 ✂️ 下のブロックをそのまま貼り付け:
 
 ```
-Create an 8-second 16:9 video. A person in a blue shirt types on a laptop at a clean white desk. A speech bubble above the laptop fills with garbled zigzag symbols and "?!" marks. The person stops typing, shoulders slump slightly, a small sweat drop appears by their head. Slow gentle zoom toward the confused speech bubble.
+Create an 8-second 16:9 video. A person in a blue shirt types on a laptop at a clean white desk. The laptop screen shows an abstract document: typed text is represented only as plain rounded gray horizontal bars — absolutely no letters, no words, no characters, no readable or pseudo-readable text anywhere in the video. Seconds 0-3: the person types and gray bars appear on the screen, while a small rounded indicator above the laptop flickers uncertainly between blue #0017C1 and red #D64550. Seconds 3-6: the person notices a mistake, taps the delete key repeatedly, and the gray bars shrink and disappear one by one; a small sweat drop appears by their head. Seconds 6-8: the person sighs and starts typing again from the beginning, shoulders slightly slumped. Slow gentle zoom in.
 
-Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text.
+Style: clean flat vector illustration, Japanese government design system aesthetic, white background, primary blue #0017C1 and accent red #D64550, minimal color palette, smooth subtle motion, no camera shake, no photorealism, no on-screen text of any kind.
 ```
 
 ## クリップ2: 解決（8–16秒）
