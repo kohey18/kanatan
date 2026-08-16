@@ -74,7 +74,7 @@ export const Clip1: React.FC = () => {
             />
           </div>
         </div>
-        <Caption text="US配列は好き。でも、切り替えだけがずっと面倒だった。" />
+        <Caption text="US配列は好き。でも、日本語切り替えだけがずっと面倒だった。" />
       </AbsoluteFill>
     </ClipFade>
   );
