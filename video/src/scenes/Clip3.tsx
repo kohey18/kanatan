@@ -1,5 +1,5 @@
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {BLUE, FONT, INK, RED, Caption, ClipFade} from '../shared';
+import {BLUE, FONT, INK, RED, Caption, ClipFade, ModeSquare} from '../shared';
 
 type Mode = 'en' | 'jp';
 type Seg = {text: string; mode: Mode; newline?: boolean};
@@ -34,32 +34,6 @@ const CHARS: Char[] = (() => {
 })();
 
 const LAST_AT = CHARS[CHARS.length - 1].at;
-
-const ModeSquare: React.FC<{color: string; glyph: string; active: boolean}> = ({color, glyph, active}) => {
-  const frame = useCurrentFrame();
-  const pulse = active ? 1 + 0.1 * Math.abs(Math.sin(frame / 5)) : 1;
-  return (
-    <div
-      style={{
-        width: 84,
-        height: 84,
-        borderRadius: 22,
-        background: color,
-        opacity: active ? 1 : 0.35,
-        transform: `scale(${pulse})`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: FONT,
-        fontSize: 44,
-        fontWeight: 700,
-        color: '#ffffff',
-      }}
-    >
-      {glyph}
-    </div>
-  );
-};
 
 export const Clip3: React.FC = () => {
   const frame = useCurrentFrame();

@@ -48,6 +48,37 @@ export const ClipFade: React.FC<{children: React.ReactNode}> = ({children}) => {
   return <div style={{position: 'absolute', inset: 0, opacity}}>{children}</div>;
 };
 
+/** Mode indicator square: blue "A" or red "あ", lit while active. */
+export const ModeSquare: React.FC<{color: string; glyph: string; active: boolean}> = ({
+  color,
+  glyph,
+  active,
+}) => {
+  const frame = useCurrentFrame();
+  const pulse = active ? 1 + 0.1 * Math.abs(Math.sin(frame / 5)) : 1;
+  return (
+    <div
+      style={{
+        width: 84,
+        height: 84,
+        borderRadius: 22,
+        background: color,
+        opacity: active ? 1 : 0.35,
+        transform: `scale(${pulse})`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: FONT,
+        fontSize: 44,
+        fontWeight: 700,
+        color: '#ffffff',
+      }}
+    >
+      {glyph}
+    </div>
+  );
+};
+
 /** A laptop with an abstract document of gray bars. barWidths in px (0 = hidden). */
 export const Laptop: React.FC<{
   barWidths: number[];
