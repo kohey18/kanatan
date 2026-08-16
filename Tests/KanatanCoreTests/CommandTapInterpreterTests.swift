@@ -1,5 +1,5 @@
 import XCTest
-@testable import CmdEisuuKanaCore
+@testable import KanatanCore
 
 final class CommandTapInterpreterTests: XCTestCase {
     func testLeftCommandSingleTapRequestsLatinInput() {

@@ -1,8 +1,8 @@
 import Foundation
 import ApplicationServices
 
-#if canImport(CmdEisuuKanaCore)
-import CmdEisuuKanaCore
+#if canImport(KanatanCore)
+import KanatanCore
 #endif
 
 enum CommandKeyMonitorError: Error {
@@ -80,7 +80,10 @@ final class CommandKeyMonitor {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
             }
         case .keyDown:
-            interpreter.nonModifierKeyPressed()
+            // Ignore the Eisu/Kana key events Kanatan posts itself.
+            if event.getIntegerValueField(.eventSourceUserData) != InputSourceController.syntheticEventUserData {
+                interpreter.nonModifierKeyPressed()
+            }
         case .flagsChanged:
             handleFlagsChanged(event)
         default:

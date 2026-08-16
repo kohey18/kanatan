@@ -1,4 +1,4 @@
-# cmd-eisuu-kana
+# Kanatan
 
 A tiny macOS menu bar app that makes:
 
@@ -25,38 +25,47 @@ This repository currently contains the first working prototype:
 
 ## Requirements
 
-- macOS 12+
+- macOS 13+
 - Accessibility permission for the app
 - Japanese input source enabled in macOS
 
-## Build
+## Install as a Mac app
 
-### Option A: Swift Package / Xcode
-
-Open the package in Xcode and run the executable product:
+The app project is generated with [xcodegen](https://github.com/yonaskolb/XcodeGen) (like [editan](https://github.com/kohey18/editan)):
 
 ```bash
-open Package.swift
+brew install xcodegen   # first time only
+./scripts/install.sh
+```
+
+This builds `CmdEisuuKana.app` (Release) and installs it to `/Applications`.
+
+### App icon
+
+Place a 1024x1024 master PNG anywhere and run:
+
+```bash
+./scripts/make-icon.sh path/to/icon-1024.png
+./scripts/install.sh
+```
+
+### Start at Login
+
+The app registers itself as a login item automatically on first launch (macOS 13+, works only when running from the `.app` bundle). Use the menu bar item → **Start at Login** to toggle it afterwards; your choice is respected on subsequent launches.
+
+## Development build (without Xcode project)
+
+### Option A: Swift Package
+
+```bash
+swift build
 ```
 
 ### Option B: local dev script
 
 ```bash
 ./scripts/build-dev.sh
-```
-
-This builds a local binary at:
-
-```bash
-./bin/cmd-eisuu-kana
-```
-
-## Run
-
-After building:
-
-```bash
-./bin/cmd-eisuu-kana
+./bin/kanatan
 ```
 
 On first launch, grant **Accessibility** permission when macOS prompts you.
@@ -64,13 +73,13 @@ On first launch, grant **Accessibility** permission when macOS prompts you.
 If permission was denied once, open it manually:
 
 - System Settings → Privacy & Security → Accessibility
-- enable `cmd-eisuu-kana`
+- enable `Kanatan`
 
 The menu bar item also includes:
 
 - **Retry Monitoring**
 - **Open Accessibility Settings**
-- **Quit cmd-eisuu-kana**
+- **Quit Kanatan**
 
 ## Development checks
 

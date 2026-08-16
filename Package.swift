@@ -2,31 +2,31 @@
 import PackageDescription
 
 let package = Package(
-    name: "cmd-eisuu-kana",
+    name: "kanatan",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v13)
     ],
     products: [
         .library(
-            name: "CmdEisuuKanaCore",
-            targets: ["CmdEisuuKanaCore"]
+            name: "KanatanCore",
+            targets: ["KanatanCore"]
         ),
         .executable(
-            name: "cmd-eisuu-kana",
-            targets: ["CmdEisuuKanaApp"]
+            name: "kanatan",
+            targets: ["KanatanApp"]
         )
     ],
     targets: [
         .target(
-            name: "CmdEisuuKanaCore"
+            name: "KanatanCore"
         ),
         .executableTarget(
-            name: "CmdEisuuKanaApp",
-            dependencies: ["CmdEisuuKanaCore"]
+            name: "KanatanApp",
+            dependencies: ["KanatanCore"]
         ),
         .testTarget(
-            name: "CmdEisuuKanaCoreTests",
-            dependencies: ["CmdEisuuKanaCore"]
+            name: "KanatanCoreTests",
+            dependencies: ["KanatanCore"]
         )
     ]
 )
