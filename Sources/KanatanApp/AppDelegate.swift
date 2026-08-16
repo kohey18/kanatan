@@ -7,6 +7,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let inputSourceController = InputSourceController()
     private var commandKeyMonitor: CommandKeyMonitor?
     private var loginItemMenuItem: NSMenuItem?
+    private var trustPollingTimer: Timer?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         configureStatusMenu()
@@ -57,10 +58,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: promptForAccessibility] as CFDictionary
         let isTrusted = AXIsProcessTrustedWithOptions(options)
         guard isTrusted else {
-            updateStatusIcon(needsAttention: true, toolTip: "Kanatan — アクセシビリティ許可が必要です。許可後にメニューの Retry Monitoring を押してください。")
+            updateStatusIcon(needsAttention: true, toolTip: "Kanatan — アクセシビリティ許可が必要です。許可すると自動で有効になります。")
             print("Accessibility permission is required to monitor Command key taps.")
+            startTrustPolling()
             return
         }
+
+        stopTrustPolling()
 
         do {
             let monitor = CommandKeyMonitor(inputSourceController: inputSourceController)
@@ -71,6 +75,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             updateStatusIcon(needsAttention: true, toolTip: "Kanatan — 監視を開始できません。メニューの Retry Monitoring を押してください。")
             print("Failed to start monitor: \(error)")
         }
+    }
+
+    /// Polls the accessibility trust state while permission is missing and
+    /// starts monitoring automatically once the user grants it, so pressing
+    /// Retry Monitoring by hand is not required.
+    private func startTrustPolling() {
+        guard trustPollingTimer == nil else { return }
+
+        trustPollingTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
+            guard let self, AXIsProcessTrusted() else { return }
+            self.stopTrustPolling()
+            self.startMonitoring(promptForAccessibility: false)
+        }
+    }
+
+    private func stopTrustPolling() {
+        trustPollingTimer?.invalidate()
+        trustPollingTimer = nil
     }
 
     private func updateStatusIcon(needsAttention: Bool, toolTip: String? = nil) {
