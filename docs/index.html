@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kanatan - 左⌘で英数、右⌘でかな。USキーボードのMacのための入力切り替えアプリ</title>
+<meta name="description" content="Kanatanは、左コマンドキーで英数、右コマンドキーでかなに切り替えるmacOS用メニューバーアプリです。無料・オープンソース、Apple Siliconネイティブ対応。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --key-900: #0017c1;
+    --key-1000: #00118f;
+    --key-50: #e8f1fe;
+    --key-100: #d9e6ff;
+    --text-body: #1a1a1a;
+    --text-desc: #333333;
+    --text-sub: #666666;
+    --border: #949494;
+    --border-light: #cccccc;
+    --bg-secondary: #f2f2f2;
+    --focus: #fbf500;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-body);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--key-900); }
+  a:hover { color: var(--key-1000); }
+  :focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; }
+
+  .container { max-width: 1024px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .site-header {
+    border-bottom: 1px solid var(--border-light);
+    background: #ffffff;
+  }
+  .site-header .container {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 28px; height: 28px; }
+  .brand span { font-size: 18px; font-weight: 700; color: var(--text-body); }
+  .header-nav a {
+    font-size: 14px; color: var(--text-body);
+    text-decoration: none; border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 16px;
+  }
+  .header-nav a:hover { background: var(--bg-secondary); }
+
+  /* Buttons (DADS solid-fill / outline) */
+  .btn {
+    display: inline-block;
+    font-size: 16px; font-weight: 700; line-height: 1;
+    padding: 18px 32px; border-radius: 8px;
+    text-decoration: none; text-align: center;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--key-900); color: #ffffff; }
+  .btn-primary:hover { background: var(--key-1000); color: #ffffff; text-decoration: underline; }
+  .btn-outline { background: #ffffff; color: var(--key-900); border-color: var(--key-900); }
+  .btn-outline:hover { background: var(--key-50); text-decoration: underline; }
+
+  /* Sections */
+  section { padding: 80px 0; }
+  .section-alt { background: var(--bg-secondary); }
+  .section-label {
+    display: inline-block;
+    font-size: 14px; font-weight: 700; color: var(--key-900);
+    border-left: 4px solid var(--key-900);
+    padding-left: 12px; margin-bottom: 16px;
+  }
+  h2 { font-size: 32px; font-weight: 700; line-height: 1.4; margin-bottom: 24px; }
+  h3 { font-size: 20px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; }
+  .lead { font-size: 18px; color: var(--text-desc); }
+
+  /* Hero */
+  .hero { padding: 96px 0; }
+  .hero .container {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+  }
+  .hero-icon { width: 160px; height: 160px; margin-bottom: 32px; }
+  .hero h1 { font-size: 45px; font-weight: 700; line-height: 1.4; margin-bottom: 16px; }
+  .hero .lead { margin-bottom: 32px; }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .hero-note { font-size: 14px; color: var(--text-sub); }
+  .hero-visual img { border: 1px solid var(--border-light); border-radius: 8px; }
+
+  /* Pain list */
+  .pain-grid { display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: start; }
+  .pain-list { list-style: none; }
+  .pain-list li {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    color: var(--text-desc);
+  }
+  .pain-visual img { border: 1px solid var(--border-light); border-radius: 8px; }
+
+  /* Solution */
+  .solution-keys { display: flex; gap: 24px; margin: 32px 0; flex-wrap: wrap; }
+  .key-card {
+    flex: 1; min-width: 240px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .key-card .key-cap {
+    display: inline-block;
+    font-size: 24px; font-weight: 700;
+    border: 2px solid var(--text-body); border-radius: 8px;
+    padding: 8px 20px; margin-bottom: 12px;
+    box-shadow: 0 2px 0 var(--text-body);
+  }
+  .key-card p { color: var(--text-desc); }
+  .key-card strong { color: var(--key-900); }
+
+  /* Features */
+  .feature-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px 48px; margin-top: 40px;
+  }
+  .feature { display: flex; gap: 20px; align-items: flex-start; }
+  .feature img { width: 80px; height: 80px; flex-shrink: 0; }
+  .feature p { color: var(--text-desc); }
+
+  /* Comparison table */
+  .table-wrap { overflow-x: auto; margin-top: 32px; }
+  table {
+    border-collapse: collapse; width: 100%; min-width: 720px;
+    font-size: 14px; background: #ffffff;
+  }
+  th, td {
+    border: 1px solid var(--border-light);
+    padding: 12px 16px; text-align: left; vertical-align: top;
+  }
+  thead th { background: var(--bg-secondary); font-weight: 700; }
+  tbody th { font-weight: 500; white-space: nowrap; }
+  td.kanatan { background: var(--key-50); font-weight: 700; }
+  .table-note { font-size: 13px; color: var(--text-sub); margin-top: 12px; }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; counter-reset: step; }
+  .step { counter-increment: step; }
+  .step img { border: 1px solid var(--border-light); border-radius: 8px; margin-bottom: 16px; }
+  .step h3::before {
+    content: counter(step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; margin-right: 10px;
+    background: var(--key-900); color: #ffffff;
+    border-radius: 50%; font-size: 16px;
+  }
+  .step p { color: var(--text-desc); font-size: 15px; }
+
+  /* FAQ */
+  .faq details {
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #ffffff;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 20px 24px;
+    list-style-position: inside;
+  }
+  .faq summary:hover { background: var(--bg-secondary); }
+  .faq .faq-body { padding: 0 24px 20px; color: var(--text-desc); }
+
+  /* Closing CTA */
+  .closing { background: var(--key-50); text-align: center; }
+  .closing h2 { margin-bottom: 16px; }
+  .closing p { margin-bottom: 32px; color: var(--text-desc); }
+  .closing .hero-cta { justify-content: center; }
+
+  /* Footer */
+  .site-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-light);
+    padding: 40px 0;
+    font-size: 14px; color: var(--text-sub);
+  }
+  .site-footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .site-footer a { color: var(--text-desc); }
+
+  @media (max-width: 800px) {
+    section { padding: 56px 0; }
+    .hero { padding: 56px 0; }
+    .hero .container, .pain-grid, .feature-grid, .steps { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#">
+      <img src="https://placehold.jp/56x56.png" alt="Kanatanのアイコン">
+      <span>Kanatan</span>
+    </a>
+    <nav class="header-nav">
+      <a href="https://github.com/kohey18/cmd-eisuu-kana">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. Hero -->
+<section class="hero">
+  <div class="container">
+    <div>
+      <img class="hero-icon" src="https://placehold.jp/160x160.png" alt="Kanatanのアプリアイコン" width="160" height="160">
+      <h1>もう、入力モードで<br>迷わない。</h1>
+      <p class="lead">左⌘で英数、右⌘でかな。<br>USキーボードのMacに、JISの「あの2つのキー」を取り戻す。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/kohey18/cmd-eisuu-kana/releases/latest">Download for Mac</a>
+        <a class="btn btn-outline" href="https://github.com/kohey18/cmd-eisuu-kana">GitHubで見る</a>
+      </div>
+      <p class="hero-note">無料・オープンソース ／ macOS 13以降 ／ Apple Silicon &amp; Intel対応</p>
+    </div>
+    <div class="hero-visual">
+      <img src="https://placehold.jp/960x540.png" alt="MacBookのキーボードで左右のコマンドキーをタップして英数とかなを切り替えるデモ" width="960" height="540">
+    </div>
+  </div>
+</section>
+
+<!-- 2. 共感 -->
+<section class="section-alt">
+  <div class="container">
+    <p class="section-label">こんな経験、ありませんか</p>
+    <h2>「konnnichiha」って打ったこと、ありますよね。</h2>
+    <div class="pain-grid">
+      <ul class="pain-list">
+        <li>Control + Space、小指がつらい。しかも今どっちのモードか、打ってみるまで分からない。</li>
+        <li>Caps Lock切り替えにしてみたけど、反応がワンテンポ遅い。</li>
+        <li>⌘英かなは最高だった。でも更新は2017年で止まっている。</li>
+        <li>Karabiner-Elementsは、英かな切り替えのためだけには少し大げさだった。</li>
+      </ul>
+      <div class="pain-visual">
+        <img src="https://placehold.jp/480x320.png" alt="日本語のつもりでローマ字をそのまま打ってしまった画面を見て困っている人のイラスト" width="480" height="320">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 解決策 -->
+<section>
+  <div class="container">
+    <p class="section-label">Kanatanの答え</p>
+    <h2>押すキーで、行き先が決まる。</h2>
+    <p class="lead">Kanatanはトグルではありません。左⌘を押せば必ず英数、右⌘を押せば必ずかな。「今どっちか」を考える時間が、ゼロになります。</p>
+    <div class="solution-keys">
+      <div class="key-card">
+        <span class="key-cap">⌘ 左</span>
+        <p>単体でタップすると、必ず<strong>英数（ABC）</strong>に切り替わります。</p>
+      </div>
+      <div class="key-card">
+        <span class="key-cap">右 ⌘</span>
+        <p>単体でタップすると、必ず<strong>かな（日本語）</strong>に切り替わります。</p>
+      </div>
+    </div>
+    <p>⌘C も ⌘Tab も、いつも通り。⌘を他のキーと組み合わせたときは、Kanatanは何もしません。</p>
+  </div>
+</section>
+
+<!-- 4. 特徴 -->
+<section class="section-alt">
+  <div class="container">
+    <p class="section-label">特徴</p>
+    <h2>切り替えに特化した、小さな道具。</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <img src="https://placehold.jp/80x80.png" alt="" width="80" height="80">
+        <div>
+          <h3>切り替えに特化、それだけ。</h3>
+          <p>メニューバーに静かに常駐する小さなアプリ。仮想ドライバも、複雑な設定ファイルも不要。入れたら、もう触らなくていい。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="https://placehold.jp/80x80.png" alt="" width="80" height="80">
+        <div>
+          <h3>キー入力の中身は読みません。</h3>
+          <p>監視するのは⌘キーの上げ下げだけ。切り替えはJISキーボードの英数／かなキーを押したのと同じ仕組みで行います。コードはすべてGitHubで公開されています。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="https://placehold.jp/80x80.png" alt="" width="80" height="80">
+        <div>
+          <h3>Apple Siliconネイティブ。</h3>
+          <p>Swiftで書かれた、今のmacOSのためのアプリ。Rosettaは要りません。</p>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="https://placehold.jp/80x80.png" alt="" width="80" height="80">
+        <div>
+          <h3>無料・オープンソース。</h3>
+          <p>ずっと無料。挙動が気になったら、ソースを読めます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 比較 -->
+<section>
+  <div class="container">
+    <p class="section-label">比較</p>
+    <h2>いま使っている方法と、どう違う？</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Kanatan</th>
+            <th>⌘英かな</th>
+            <th>Karabiner-Elements</th>
+            <th>Control + Space</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>左⌘=英数 / 右⌘=かな</th>
+            <td class="kanatan">対応</td>
+            <td>対応</td>
+            <td>対応（要ルール設定）</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <th>ステートレス（迷わない）</th>
+            <td class="kanatan">対応</td>
+            <td>対応</td>
+            <td>対応</td>
+            <td>トグル式</td>
+          </tr>
+          <tr>
+            <th>更新状況</th>
+            <td class="kanatan">開発中</td>
+            <td>2017年で停止<sup>*</sup></td>
+            <td>活発</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <th>Apple Siliconネイティブ</th>
+            <td class="kanatan">対応</td>
+            <td>非対応（Rosetta 2）<sup>*</sup></td>
+            <td>対応</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <th>導入の手間</th>
+            <td class="kanatan">アプリ起動+許可1つ</td>
+            <td>アプリ起動+許可1つ</td>
+            <td>ドライバ導入+ルール設定</td>
+            <td>不要</td>
+          </tr>
+          <tr>
+            <th>必要な権限</th>
+            <td class="kanatan">アクセシビリティのみ</td>
+            <td>アクセシビリティ</td>
+            <td>入力監視+仮想ドライバ</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">* オリジナル版について。有志によるApple Silicon対応版も存在します。</p>
+  </div>
+</section>
+
+<!-- 6. 使い方 -->
+<section class="section-alt">
+  <div class="container">
+    <p class="section-label">使い方</p>
+    <h2>セットアップは1分で終わります。</h2>
+    <div class="steps">
+      <div class="step">
+        <img src="https://placehold.jp/480x300.png" alt="ダウンロードしたKanatanをアプリケーションフォルダに移す様子" width="480" height="300">
+        <h3>ダウンロード</h3>
+        <p>ダウンロードして、アプリケーションフォルダへ。</p>
+      </div>
+      <div class="step">
+        <img src="https://placehold.jp/480x300.png" alt="システム設定のアクセシビリティでKanatanを許可する画面" width="480" height="300">
+        <h3>許可を1回だけON</h3>
+        <p>アクセシビリティの許可を1回だけONにします。</p>
+      </div>
+      <div class="step">
+        <img src="https://placehold.jp/480x300.png" alt="左右のコマンドキーをタップして入力を切り替える様子" width="480" height="300">
+        <h3>おわり</h3>
+        <p>左⌘と右⌘を、タップしてみてください。ログイン時の自動起動もメニューからワンクリック。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section>
+  <div class="container">
+    <p class="section-label">よくある質問</p>
+    <h2>気になること、先に答えます。</h2>
+    <div class="faq">
+      <details>
+        <summary>キーロガーみたいで怖いんだけど？</summary>
+        <div class="faq-body">
+          <p>もっともな心配です。Kanatanが読み取るのは修飾キー（⌘）の押下イベントのみで、文字キーの内容は読み取りません。切り替え時にはJISキーボードの英数／かなキーと同じキーイベントを送信します（⌘英かなやKarabinerと同じ、実績のある方式です）。疑わしければ<a href="https://github.com/kohey18/cmd-eisuu-kana">ソースコード</a>をどうぞ。</p>
+        </div>
+      </details>
+      <details>
+        <summary>Karabiner-Elementsと併用できる？</summary>
+        <div class="faq-body">
+          <p>他のキーカスタマイズをKarabinerでしている場合は、英かな切り替えルールをオフにすれば併用できます。</p>
+        </div>
+      </details>
+      <details>
+        <summary>どの日本語入力に対応してる？</summary>
+        <div class="faq-body">
+          <p>macOS標準の日本語入力とGoogle日本語入力で動作確認済みです。ABCレイアウトが無効な環境でも、IMEの英字モードに自動でフォールバックします。</p>
+        </div>
+      </details>
+      <details>
+        <summary>対応環境は？</summary>
+        <div class="faq-body">
+          <p>macOS 13 Ventura以降、Apple Silicon / Intelの両方に対応しています。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Closing CTA -->
+<section class="closing">
+  <div class="container">
+    <h2>考えるのは文章だけ。<br>切り替えはKanatanに。</h2>
+    <p>無料・オープンソース。1分で今日から使えます。</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://github.com/kohey18/cmd-eisuu-kana/releases/latest">Download for Mac</a>
+      <a class="btn btn-outline" href="https://github.com/kohey18/cmd-eisuu-kana">GitHubで見る</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <span>Kanatan</span>
+    <span><a href="https://github.com/kohey18/cmd-eisuu-kana">GitHub</a> ／ MITライセンスで公開予定</span>
+  </div>
+</footer>
+
+</body>
+</html>
