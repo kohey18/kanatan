@@ -30,7 +30,7 @@
 
 ### Download
 
-Grab the latest `Kanatan.app` from [Releases](https://github.com/kohey18/kanatan/releases/latest) and drop it into `/Applications`.
+Download the latest `Kanatan-x.y.z.dmg` from [Releases](https://github.com/kohey18/kanatan/releases/latest), open it, and drag **Kanatan** into the **Applications** folder.
 
 ### Build from source
 
@@ -72,7 +72,7 @@ swift test             # run unit tests
 ./scripts/build-dev.sh   # build a local dev binary at ./bin/kanatan
 ```
 
-The Xcode project is generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) from `project.yml`. To update the app icon, place a 1024×1024 PNG anywhere and run `./scripts/make-icon.sh path/to/icon.png`.
+The Xcode project is generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) from `project.yml`. To update the app icon, place a 1024×1024 PNG anywhere and run `./scripts/make-icon.sh path/to/icon.png`. To build a distributable drag-and-drop DMG, run `./scripts/make-dmg.sh <version>` (requires `brew install create-dmg`).
 
 ```
 Sources/
