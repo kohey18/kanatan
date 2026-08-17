@@ -18,6 +18,7 @@ ditto "$APP" "$STAGING/Kanatan.app"
 OUT=build/Kanatan-$VERSION.dmg
 rm -f "$OUT"
 
+# 背景画像の再生成: swift scripts/make-dmg-background.swift
 create-dmg \
   --volname "Kanatan" \
   --volicon "$APP/Contents/Resources/AppIcon.icns" \
