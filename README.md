@@ -83,6 +83,10 @@ docs/            # landing page (GitHub Pages)
 scripts/         # install / dev-build / icon generation
 ```
 
+## Signed distribution
+
+For public releases, use `./scripts/release.sh <version> <build-number>` to build a universal Developer ID-signed, notarized DMG. See [Apple setup and release checklist](docs/distribution.md). The older `make-dmg.sh` only packages a local build; it does not notarize it.
+
 ## Contributing
 
 Issues and pull requests are welcome! For larger changes, please open an issue first to discuss the direction. Before submitting, make sure `swift test` and `./scripts/check-core.sh` pass.

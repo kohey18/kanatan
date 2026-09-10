@@ -29,6 +29,5 @@ targets:
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
         SWIFT_VERSION: "5.0"
         CODE_SIGN_STYLE: Automatic
-        CODE_SIGN_IDENTITY: "Apple Development"
-        DEVELOPMENT_TEAM: 3U5Y9G26T3
+        CODE_SIGN_IDENTITY: "-"
         ENABLE_HARDENED_RUNTIME: YES
