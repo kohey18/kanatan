@@ -97,7 +97,9 @@ export NOTARY_PROFILE='macos-notary'
 - [x] `macos-notary` の公証用認証情報を Keychain に登録し、接続成功を確認。
 - [x] Universal ビルド、Developer ID 署名、アプリと DMG の公証・チケット添付・Gatekeeper 検証が成功。
 - [ ] 別環境で初回起動・機能確認。
-- [ ] 公開済み v0.1.0 に続く署名・公証済みリリースを作成。
+- [x] [公証済み v0.1.1](https://github.com/kohey18/kanatan/releases/tag/v0.1.1) を公開。
+
+- [x] 認証情報なしで公開 DMG を再ダウンロードし、検証済みファイルとの SHA-256 一致を確認。
 
 ## 今回の検証状況
 
@@ -108,6 +110,7 @@ export NOTARY_PROFILE='macos-notary'
 - アプリと DMG の両方で Apple の公証結果 `Accepted` を確認。
 - 公証チケットの添付と検証、署名検証、Gatekeeper の受け入れを確認。
 - Apple Silicon / Intel の両アーキテクチャとバージョン情報を確認。
+- DMG を読み取り専用でマウントし、内包アプリの署名・Gatekeeper・公証チケット・CPU 対応を確認。
 - 常用中のアプリの終了や置換はしていません。別 Mac での初回起動と操作確認は残タスクです。
 
 ## Apple 公式資料
