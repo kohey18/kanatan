@@ -85,7 +85,7 @@ scripts/         # install / dev-build / icon generation
 
 ## Signed distribution
 
-For public releases, use `./scripts/release.sh <version> <build-number>` to build a universal Developer ID-signed, notarized DMG. See [Apple setup and release checklist](docs/distribution.md). The older `make-dmg.sh` only packages a local build; it does not notarize it.
+For public releases, use `./scripts/release.sh <version> <build-number>` to build a universal Developer ID-signed, notarized DMG. Configure a Developer ID Application certificate and a `notarytool` Keychain profile first; override `APPLE_TEAM_ID`, `DEVELOPER_ID_APPLICATION`, and `NOTARY_PROFILE` as needed. The older `make-dmg.sh` only packages a local build; it does not notarize it.
 
 ## Contributing
 
