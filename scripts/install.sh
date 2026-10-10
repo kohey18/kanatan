@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 xcodegen generate
 xcodebuild -project Kanatan.xcodeproj -scheme Kanatan -configuration Release \
-  -derivedDataPath build/DerivedData build | grep -E "error:|warning: .*deprecated|BUILD" || true
+  -derivedDataPath build/DerivedData -allowProvisioningUpdates build | grep -E "error:|warning: .*deprecated|BUILD" || true
 
 # grep may hide xcodebuild's exit status; fail on the real one so a stale
 # previous build is never installed.
@@ -20,7 +20,7 @@ if [ ! -d "$APP" ]; then
   exit 1
 fi
 
-osascript -e 'tell application "Kanatan" to quit' 2>/dev/null || true
+pkill -x Kanatan 2>/dev/null || true
 sleep 1
 rm -rf /Applications/Kanatan.app
 ditto "$APP" /Applications/Kanatan.app
